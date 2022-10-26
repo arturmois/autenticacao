@@ -10,7 +10,6 @@ router.get('/signup', function (req, res, next) {
 });
 
 /* POST users */
-
 router.post('/signup', function (req, res, next) {
   const db = require('../db');
   db.createUser(req.body.username, req.body.password, req.body.email, (err, result) => {
@@ -21,6 +20,26 @@ router.post('/signup', function (req, res, next) {
       res.redirect('/');
     }
   });
+});
+
+/* POST forgot */
+router.post('/forgot', function (req, res, next) {
+  const db = require('../db');
+  db.resetPassword(req.body.email, (err, result, newPassword) => {
+    if (err) {
+      return res.redirect('/login?reset=true');
+    }
+    else {
+      var text = `Olá,sua nova senha é ${newPassword}. Sua senha antiga, não funciona mais!`;
+      require('../mail')(req.body.email, 'Sua senha foi alterada!', text);
+      res.redirect('/login?reset=true');
+    }
+  });
+});
+
+/* GET forgot. */
+router.get('/forgot', function (req, res, next) {
+  res.render('forgot', { title: 'Esqueci minha Senha', });
 });
 
 module.exports = router;
