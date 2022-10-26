@@ -4,15 +4,15 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/signup', function (req, res, next) {
   if (req.query.fail)
-    res.render('signup', { message: 'Falha no cadastro do usuário!' });
+    res.render('signup', { title: 'Signup', message: 'Falha no cadastro do usuário!' });
   else
-    res.render('signup', { message: null });
+    res.render('signup', { title: 'Signup', message: null });
 });
 
 /* POST users */
 router.post('/signup', function (req, res, next) {
   const db = require('../db');
-  db.createUser(req.body.username, req.body.password, req.body.email, (err, result) => {
+  db.createUser(req.body.username, req.body.password, req.body.email, req.body.profile, (err, result) => {
     if (err) return res.redirect('/users/signup?fail=true');
     else {
       var text = `Obrigado por se dadastrar ${req.body.username}, sua senha é ${req.body.password}`;

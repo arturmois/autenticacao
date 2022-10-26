@@ -10,7 +10,7 @@ var logger = require('morgan');
 
 global.authenticationMiddleware = () => {
   return function (req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && require('./permissions')(req)) {
       return next()
     }
     res.redirect('/login?fail=true')
@@ -20,6 +20,7 @@ global.authenticationMiddleware = () => {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+var reportsRouter = require('./routes/reports');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use('/', loginRouter);
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
+app.use('/reports', reportsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

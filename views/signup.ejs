@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html>
-
-<body>
-    <h1>Signup</h1>
+<%- include("top.ejs") %>
     <form action="/users/signup" method="POST">
         Username: <input name="username" type="text"><br>
         Password: <input name="password" type="password"><br>
         E-mail: <input name="email" type="text"><br>
+        Perfil: <select name="profile">
+            <option value="1">Usuário</option>
+            <option value="2">Admin</option>
+        </select>
         <input type="submit" value="Save"><br>
     </form>
     <% if(message) {%>
@@ -16,6 +16,4 @@
             </label>
         </p>
         <%}%>
-</body>
-
-</html>
+            <%- include("bottom.ejs") %>

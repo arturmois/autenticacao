@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 
-function createUser(username, password, email, callback) {
+function createUser(username, password, email, profile, callback) {
     const crytoPassword = bcrypt.hashSync(password, 12);
-    global.db.collection("users").insertOne({ username, password: crytoPassword, email }, callback);
+    global.db.collection("users").insertOne({ username, password: crytoPassword, email, profile }, callback);
 }
 
 function resetPassword(email, callback) {
