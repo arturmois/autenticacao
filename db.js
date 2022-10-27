@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 
 function createUser(username, password, email, profile, callback) {
-    const crytoPassword = bcrypt.hashSync(password, 12);
-    global.db.collection("users").insertOne({ username, password: crytoPassword, email, profile }, callback);
+    const cryptoPassword = bcrypt.hashSync(password, 10);
+    global.db.collection("users").insertOne({ username, password: cryptoPassword, email, profile }, callback);
 }
 
 function resetPassword(email, callback) {
@@ -20,14 +20,10 @@ function countAll(callback) {
 
 const TAMANHO_PAGINA = 5;
 function findAllUsers(pagina, callback) {
-    const totalSkip = (pagina - 1) * TAMANHO_PAGINA
+    const totalSkip = (pagina - 1) * TAMANHO_PAGINA;
     global.db.collection("users").find().skip(totalSkip).limit(TAMANHO_PAGINA).toArray(callback);
 }
 
 module.exports = {
-    createUser,
-    resetPassword,
-    findAllUsers,
-    TAMANHO_PAGINA,
-    countAll
+    createUser, resetPassword, findAllUsers, TAMANHO_PAGINA, countAll
 }

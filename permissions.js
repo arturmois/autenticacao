@@ -5,12 +5,16 @@ function isAdmin(profile) {
 }
 
 module.exports = (request) => {
+
     const user = request.user;
-    if (!user) return false
+    if (!user) return false;
 
     const profile = user.profile;
-    const originalUrl = request.originalUrl;
-    const method = request.method;
+    let originalUrl = request.originalUrl;
+    const method = request.method;//GET, POST, DELETE, etc
+
+    if (request.params.pagina)
+        originalUrl = originalUrl.replace("/" + request.params.pagina, "");
 
     switch (originalUrl) {
         case '/': return true;
@@ -20,4 +24,5 @@ module.exports = (request) => {
         case '/reports': return isAdmin(profile);
         default: return false;
     }
+
 }

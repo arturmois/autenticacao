@@ -10,7 +10,7 @@ var logger = require('morgan');
 
 global.authenticationMiddleware = () => {
   return function (req, res, next) {
-    if (req.isAuthenticated() && require('./permissions')(req)) {
+    if (req.isAuthenticated() && require("./permissions")(req)) {
       return next()
     }
     res.redirect('/login?fail=true')
@@ -45,14 +45,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 30 * 60 * 1000 }
-}));
+}))
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', loginRouter);
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/reports', reportsRouter);
+app.use('/', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
